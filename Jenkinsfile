@@ -33,12 +33,13 @@ pipeline {
                 sh 'docker build . -t yusufluai/landingpage:$BUILD_NUMBER'
                 sh 'docker push yusufluai/landingpage:$BUILD_NUMBER'
              
-               
+               script {
                 if ( env.BRANCH_NAME == "main") {
                 sh 'kubectl set image deployment/landingpage-deployment landingpage=yusufluai/landingpage:$BUILD_NUMBER -n production' }
                 elseif ( env.BRANCH_NAME == "staging"){
                     sh 'kubectl set image deployment/landingpage-deployment landingpage=yusufluai/landingpage:$BUILD_NUMBER -n staging'
                 }
+               }
                 
                 
             }
