@@ -10,7 +10,9 @@ pipeline {
             }
         }
         stage('Build ') {
-           
+              agent {
+                label 'master'
+            }
             steps {
                 sh 'node --version'
                 sh 'docker build . -t image:$BUILD_NUMBER'
