@@ -1,5 +1,8 @@
 pipeline {
     agent none
+     triggers {
+        pollSCM '* * * * *'
+    }
     stages {
         
          stage('Checkout SCM') {
@@ -36,7 +39,7 @@ pipeline {
                script {
                 if ( env.BRANCH_NAME == "main") {
                 sh 'kubectl set image deployment/landingpage-deployment landingpage=yusufluai/landingpage:$BUILD_NUMBER -n production' }
-                elseif ( env.BRANCH_NAME == "staging"){
+                else if ( env.BRANCH_NAME == "staging"){
                     sh 'kubectl set image deployment/landingpage-deployment landingpage=yusufluai/landingpage:$BUILD_NUMBER -n staging'
                 }
                }
