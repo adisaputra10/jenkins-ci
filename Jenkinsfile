@@ -1,6 +1,16 @@
 pipeline {
     agent none
     stages {
+        
+         stage('Checkout SCM') {
+            agent {
+                label 'master'
+            }
+            steps {
+                checkout scm
+            }
+        }
+        
         stage('Unit Testing') {
             agent {
                 docker { image 'node:14-alpine' }
@@ -15,7 +25,8 @@ pipeline {
             }
             steps {
               
-                sh 'docker build . -t image:$BUILD_NUMBER'
+                sh 'docker build . -t yusufluai/landingpage:$BUILD_NUMBER'
+                sh 'docker push yusufluai/landingpage:$BUILD_NUMBER'
             }
         }
     }
